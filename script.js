@@ -1,5 +1,9 @@
 const playButton = document.querySelector('#play');
 
+const playAgainButton = document.createElement('button');
+playAgainButton.textContent='Play Again';
+playAgainButton.id='playAgain';
+
 const rockButton = document.createElement('button');
 rockButton.textContent="Rock";
 rockButton.id='ROCK';
@@ -17,14 +21,35 @@ const content = document.querySelector('.main-container');
 let playerScore = 0;
 let computerScore = 0;
 
+const scoreBoard = document.createElement('p');
+
+const finalResult = document.createElement('p');
+
+
 playButton.addEventListener('click', () => {
     content.removeChild(playButton);
+
     content.appendChild(rockButton);
     content.appendChild(paperButton);
     content.appendChild(scissorsButton);
+
+    scoreBoard.textContent = `${playerScore} - ${computerScore}`;
+    content.appendChild(scoreBoard);
+
     game();
 });
 
+playAgainButton.addEventListener('click', () => {
+    content.removeChild(playAgainButton);
+    content.removeChild(finalResult);
+    content.removeChild(scoreBoard);
+    content.appendChild(rockButton);
+    content.appendChild(paperButton);
+    content.appendChild(scissorsButton);
+    content.appendChild(scoreBoard);
+
+    game();
+})
 
 function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
@@ -81,6 +106,7 @@ function play(e) {
         console.log("Tie!");
     }
     console.log(`Player: ${playerScore} \t Computer: ${computerScore}`);
+    scoreBoard.textContent = `${playerScore} - ${computerScore}`;
 
     if (playerScore === 5 || computerScore === 5) {
         endGame(playerScore, computerScore);
@@ -92,6 +118,7 @@ function play(e) {
 function game() {
     playerScore = 0;
     computerScore = 0;
+    scoreBoard.textContent = `${playerScore} - ${computerScore}`;
     const buttons = document.querySelectorAll('.main-container button');
     buttons.forEach(button => {
         button.addEventListener('click', play)
@@ -102,15 +129,18 @@ function game() {
 
 function endGame(playerScore, computerScore) {
     const buttons = document.querySelectorAll('.main-container button');
+    scoreBoard.textContent = `Final Score: ${playerScore} - ${computerScore}`;
     if (playerScore > computerScore) {
+        finalResult.textContent = `You Win! Congratulations!`;
         console.log(`You Win ${playerScore} - ${computerScore}`);
     } else {
+        finalResult.textContent = `You Lose! Better luck next time!`;
         console.log(`You Lose ${playerScore} - ${computerScore}`);
     }
     buttons.forEach(button => {
         button.removeEventListener('click', play);
         content.removeChild(button);
     });
-
-    content.appendChild(playButton);
+    content.appendChild(finalResult);
+    content.appendChild(playAgainButton);
 }
