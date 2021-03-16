@@ -1,7 +1,6 @@
 body, html {
     background-color: black;
     height: 95%;
-    width: 100%;
     display: flex;
     justify-content: center;
     
@@ -13,13 +12,11 @@ body, html {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    width: 95%;
 }
 
 .animation-container{
     height: 200px;
-    width: 100%;
-
+    width: 100vw;
 }
 
 img{
@@ -31,10 +28,11 @@ img{
 
 @keyframes fly {
     0% {
-        display: block;
+        transform: translateX(25vw);
     }
     100% {
-        transform: translateX(100vw);
+        transform: translateX(75vw);
+        opacity: 0;
         display: none;
     }
 }
