@@ -26,10 +26,6 @@ playButton.addEventListener('click', () => {
 });
 
 
-
-
-
-
 function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -91,6 +87,8 @@ function play(e) {
     }
 }
 
+
+
 function game() {
     playerScore = 0;
     computerScore = 0;
@@ -99,6 +97,8 @@ function game() {
         button.addEventListener('click', play)
         });
     }
+
+
 
 function endGame(playerScore, computerScore) {
     const buttons = document.querySelectorAll('.main-container button');
