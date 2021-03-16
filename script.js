@@ -1,3 +1,13 @@
+const ROCK_IMG = document.createElement('img');
+ROCK_IMG.src='https://pixy.org/src/20/209108.png';
+
+const PAPER_IMG = document.createElement('img');
+PAPER_IMG.src='https://webstockreview.net/images/paper-clipart-cartoon-3.png';
+
+const SCISSORS_IMG = document.createElement('img');
+SCISSORS_IMG.src='https://cdn.pixabay.com/photo/2014/04/03/10/20/scissors-310134_1280.png'
+
+
 const playButton = document.querySelector('#play');
 
 const playAgainButton = document.createElement('button');
@@ -19,9 +29,12 @@ scissorsButton.id='SCISSORS';
 
 const content = document.querySelector('.main-container');
 const buttonContainer = document.querySelector('.button-container');
+const animationContainer = document.querySelector('.animation-container');
 
 let playerScore = 0;
 let computerScore = 0;
+
+const status = document.querySelector('#status');
 
 const scoreBoard = document.createElement('p');
 
@@ -36,7 +49,9 @@ playButton.addEventListener('click', () => {
     buttonContainer.appendChild(scissorsButton);
 
     scoreBoard.textContent = `${playerScore} - ${computerScore}`;
-    content.appendChild(scoreBoard);
+    status.textContent = 'Choose Rock, Paper, or Scissors.';
+    content.insertBefore(scoreBoard, buttonContainer);
+
 
     game();
 });
@@ -48,7 +63,11 @@ playAgainButton.addEventListener('click', () => {
     buttonContainer.appendChild(rockButton);
     buttonContainer.appendChild(paperButton);
     buttonContainer.appendChild(scissorsButton);
-    content.appendChild(scoreBoard);
+
+    status.textContent="Choose Rock, Paper, or Scissors.";
+    content.insertBefore(status, buttonContainer);
+    content.insertBefore(scoreBoard, buttonContainer);
+
 
     game();
 })
@@ -97,17 +116,18 @@ function playRound(playerSelection, computerSelection) {
 function play(e) {
     let computerSelection = computerPlay()
     let result = playRound(e.target.id, computerSelection);
+    runAnimation(e.target.id);
 
     if (result == 1) {
-        console.log(`You Win! ${e.target.id} beats ${computerSelection}!`);
+        status.textContent=`Nice! ${e.target.id} beats ${computerSelection}!`;
         playerScore += 1;
     } else if (result == 0) {
-        console.log(`You Lose! ${computerSelection} beats ${e.target.id}!`);
+        status.textContent=(`Ouch! ${computerSelection} beats ${e.target.id}!`);
         computerScore += 1;
     } else {
-        console.log("Tie!");
+        status.textContent="Looks like a tie!";
     }
-    console.log(`Player: ${playerScore} \t Computer: ${computerScore}`);
+
     scoreBoard.textContent = `${playerScore} - ${computerScore}`;
 
     if (playerScore === 5 || computerScore === 5) {
@@ -134,15 +154,25 @@ function endGame(playerScore, computerScore) {
     scoreBoard.textContent = `Final Score: ${playerScore} - ${computerScore}`;
     if (playerScore > computerScore) {
         finalResult.textContent = `You Win! Congratulations!`;
-        console.log(`You Win ${playerScore} - ${computerScore}`);
     } else {
         finalResult.textContent = `You Lose! Better luck next time!`;
-        console.log(`You Lose ${playerScore} - ${computerScore}`);
     }
     buttons.forEach(button => {
         button.removeEventListener('click', play);
         buttonContainer.removeChild(button);
     });
-    content.appendChild(finalResult);
+    content.removeChild(status);
+    content.insertBefore(finalResult, buttonContainer);
     buttonContainer.appendChild(playAgainButton);
+}
+
+function runAnimation(image) {
+    animationContainer.removeChild(animationContainer.firstChild);
+    if (image === "ROCK") {
+        animationContainer.appendChild(ROCK_IMG);
+    } else if (image === "PAPER") {
+        animationContainer.appendChild(PAPER_IMG);
+    } else if (image === "SCISSORS") {
+        animationContainer.appendChild(SCISSORS_IMG);
+    }
 }
