@@ -4,6 +4,7 @@ const playAgainButton = document.createElement('button');
 playAgainButton.textContent='Play Again';
 playAgainButton.id='playAgain';
 
+
 const rockButton = document.createElement('button');
 rockButton.textContent="Rock";
 rockButton.id='ROCK';
@@ -17,6 +18,7 @@ scissorsButton.textContent="Scissors"
 scissorsButton.id='SCISSORS';
 
 const content = document.querySelector('.main-container');
+const buttonContainer = document.querySelector('.button-container');
 
 let playerScore = 0;
 let computerScore = 0;
@@ -27,11 +29,11 @@ const finalResult = document.createElement('p');
 
 
 playButton.addEventListener('click', () => {
-    content.removeChild(playButton);
+    buttonContainer.removeChild(playButton);
 
-    content.appendChild(rockButton);
-    content.appendChild(paperButton);
-    content.appendChild(scissorsButton);
+    buttonContainer.appendChild(rockButton);
+    buttonContainer.appendChild(paperButton);
+    buttonContainer.appendChild(scissorsButton);
 
     scoreBoard.textContent = `${playerScore} - ${computerScore}`;
     content.appendChild(scoreBoard);
@@ -40,12 +42,12 @@ playButton.addEventListener('click', () => {
 });
 
 playAgainButton.addEventListener('click', () => {
-    content.removeChild(playAgainButton);
+    buttonContainer.removeChild(playAgainButton);
     content.removeChild(finalResult);
     content.removeChild(scoreBoard);
-    content.appendChild(rockButton);
-    content.appendChild(paperButton);
-    content.appendChild(scissorsButton);
+    buttonContainer.appendChild(rockButton);
+    buttonContainer.appendChild(paperButton);
+    buttonContainer.appendChild(scissorsButton);
     content.appendChild(scoreBoard);
 
     game();
@@ -119,7 +121,7 @@ function game() {
     playerScore = 0;
     computerScore = 0;
     scoreBoard.textContent = `${playerScore} - ${computerScore}`;
-    const buttons = document.querySelectorAll('.main-container button');
+    const buttons = document.querySelectorAll('.button-container button');
     buttons.forEach(button => {
         button.addEventListener('click', play)
         });
@@ -128,7 +130,7 @@ function game() {
 
 
 function endGame(playerScore, computerScore) {
-    const buttons = document.querySelectorAll('.main-container button');
+    const buttons = document.querySelectorAll('.button-container button');
     scoreBoard.textContent = `Final Score: ${playerScore} - ${computerScore}`;
     if (playerScore > computerScore) {
         finalResult.textContent = `You Win! Congratulations!`;
@@ -139,8 +141,8 @@ function endGame(playerScore, computerScore) {
     }
     buttons.forEach(button => {
         button.removeEventListener('click', play);
-        content.removeChild(button);
+        buttonContainer.removeChild(button);
     });
     content.appendChild(finalResult);
-    content.appendChild(playAgainButton);
+    buttonContainer.appendChild(playAgainButton);
 }
